@@ -1,0 +1,14 @@
+.ng-invalid.ng-touched:not(form){
+    border: 1px solid red;
+}
+
+.alert{
+    height: 25px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+#enderecoCEP{
+    border: 0px solid rgba(17, 34, 51, 0) !important;
+}
