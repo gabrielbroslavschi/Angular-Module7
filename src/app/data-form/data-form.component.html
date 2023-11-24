@@ -1,1 +1,190 @@
-<p>data-form works!</p>
+<form class="form-horizontal" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+  <div class="form-group" [ngClass]="aplicaCssErro('nome')">
+    <div class="col-sm-12">
+      <label for="nome">Nome</label>
+    </div>
+
+    <div class="col-sm-12">
+      <input
+        type="text"
+        class="form-control"
+        id="nome"
+        placeholder="Nome"
+        formControlName="nome"
+      />
+      <app-campo-control-erro
+        [mostrarErro]="verirficaValidTouched('nome')"
+        msgErro="Nome Obrigatório"
+      ></app-campo-control-erro>
+    </div>
+  </div>
+
+  <br />
+
+  <div class="form-group" [ngClass]="aplicaCssErro('email')">
+    <div class="col-sm-12">
+      <label for="email">Email</label>
+    </div>
+
+    <div class="col-sm-12">
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="nome@email.com"
+        formControlName="email"
+      />
+      <app-campo-control-erro
+        [mostrarErro]="verirficaValidTouched('email')"
+        msgErro="Email Obrigatório"
+      ></app-campo-control-erro>
+      <app-campo-control-erro
+        [mostrarErro]="verificarEmailInvalido()"
+        msgErro="Email Invalido"
+      ></app-campo-control-erro>
+    </div>
+  </div>
+  <br />
+
+  <div formGroupName="endereco">
+    <div class="form-group row">
+      <div
+        class="form-group col-sm-3"
+        [ngClass]="aplicaCssErro('endereco.cep')"
+      >
+        <label for="cep" class="control-label">CEP</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cep"
+          formControlName="cep"
+          (blur)="consultaCEP()"
+        />
+        <app-campo-control-erro
+          [mostrarErro]="verirficaValidTouched('endereco.cep')"
+          msgErro="CEP Obrigatório"
+        ></app-campo-control-erro>
+      </div>
+
+      <div
+        class="form-group col-sm-3"
+        [ngClass]="aplicaCssErro('endereco.numero')"
+      >
+        <label for="numero" class="control-label">Número</label>
+        <input
+          type="text"
+          class="form-control"
+          id="numero"
+          formControlName="numero"
+        />
+        <app-campo-control-erro
+          [mostrarErro]="verirficaValidTouched('endereco.numero')"
+          msgErro="Número Obrigatório"
+        ></app-campo-control-erro>
+      </div>
+
+      <div
+        class="form-group col-sm-6"
+        [ngClass]="aplicaCssErro('endereco.complemento')"
+      >
+        <label for="complemento" class="control-label">Complemento</label>
+        <input
+          type="text"
+          class="form-control"
+          id="complemento"
+          formControlName="complemento"
+        />
+        <app-campo-control-erro
+          [mostrarErro]="verirficaValidTouched('endereco.complemento')"
+          msgErro="Complemento Obrigatório"
+        ></app-campo-control-erro>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="form-group" [ngClass]="aplicaCssErro('endereco.rua')">
+      <div class="col-sm-12">
+        <label for="rua">Rua</label>
+      </div>
+
+      <div class="col-sm-12">
+        <input
+          type="text"
+          class="form-control"
+          id="rua"
+          formControlName="rua"
+        />
+      </div>
+
+      <app-campo-control-erro
+        [mostrarErro]="verirficaValidTouched('endereco.rua')"
+        msgErro="Rua Obrigatório"
+      ></app-campo-control-erro>
+    </div>
+
+    <br />
+
+    <div class="form-group row">
+      <div
+        class="form-group col-sm-5"
+        [ngClass]="aplicaCssErro('endereco.bairro')"
+      >
+        <label for="bairro" class="control-label">Bairro</label>
+        <input
+          type="text"
+          class="form-control"
+          id="bairro"
+          formControlName="bairro"
+        />
+        <app-campo-control-erro
+          [mostrarErro]="verirficaValidTouched('endereco.bairro')"
+          msgErro="Bairro Obrigatório"
+        ></app-campo-control-erro>
+      </div>
+
+      <div
+        class="form-group col-sm-4"
+        [ngClass]="aplicaCssErro('endereco.cidade')"
+      >
+        <label for="cidade" class="control-label">Cidade</label>
+        <input
+          type="text"
+          class="form-control"
+          id="cidade"
+          formControlName="cidade"
+        />
+        <app-campo-control-erro
+          [mostrarErro]="verirficaValidTouched('endereco.cidade')"
+          msgErro="Cidade Obrigatório"
+        ></app-campo-control-erro>
+      </div>
+
+      <div
+        class="form-group col-sm-3"
+        [ngClass]="aplicaCssErro('endereco.estado')"
+      >
+        <label for="estado" class="control-label">Estado</label>
+        <input
+          type="text"
+          class="form-control"
+          id="estado"
+          formControlName="estado"
+        />
+        <app-campo-control-erro
+          [mostrarErro]="verirficaValidTouched('endereco.estado')"
+          msgErro="Estado Obrigatório"
+        ></app-campo-control-erro>
+      </div>
+    </div>
+  </div>
+
+  <br />
+
+  <button type="submit" class="btn btn-primary">Enviar</button>
+  <button class="btn btn-danger" (click)="resetFormulario()">Cancelar</button>
+
+  <app-form-debug [form]="formulario"></app-form-debug>
+</form>
+
+<!-- pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"  -->
