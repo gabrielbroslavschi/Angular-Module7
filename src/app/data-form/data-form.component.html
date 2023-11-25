@@ -165,12 +165,17 @@
         [ngClass]="aplicaCssErro('endereco.estado')"
       >
         <label for="estado" class="control-label">Estado</label>
-        <input
+        <select
           type="text"
           class="form-control"
           id="estado"
           formControlName="estado"
-        />
+        >
+          <option *ngFor="let estado of estados | async" [value]="estado.Sigla">
+            {{ estado.Nome }}
+          </option>
+        </select>
+
         <app-campo-control-erro
           [mostrarErro]="verirficaValidTouched('endereco.estado')"
           msgErro="Estado Obrigatório"
@@ -181,8 +186,81 @@
 
   <br />
 
+  <div class="form-group row">
+    <div class="form-group col-sm-3" [ngClass]="aplicaCssErro('cargo')">
+      <label for="cargo" class="control-label">Cargo</label>
+      <select
+        type="text"
+        class="form-control"
+        id="cargo"
+        formControlName="cargo"
+        [compareWith]="compararCargos"
+      >
+        <option *ngFor="let cargo of cargos" [ngValue]="cargo">
+          {{ cargo.desc }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group col-sm-3" [ngClass]="aplicaCssErro('tecnologias')">
+      <label for="tecnologias" class="control-label">Tecnologias</label>
+      <select
+        type="text"
+        class="form-control"
+        id="tecnologias"
+        formControlName="tecnologias"
+        multiple
+      >
+        <option
+          *ngFor="let tecnologia of tecnologias"
+          [ngValue]="tecnologia.nome"
+        >
+          {{ tecnologia.desc }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group col-sm-3" [ngClass]="aplicaCssErro('newsLetter')">
+      <label for="tecnologias" class="control-label">Newsletter</label>
+      <div>
+        <label class="radio-inline" *ngFor="let newsLetter of newsLetterOp">
+          <input
+            type="radio"
+            formControlName="newsLetter"
+            [value]="newsLetter.valor"
+          />
+          {{ newsLetter.desc }}
+        </label>
+      </div>
+    </div>
+    <div class="form-group col-sm-3" [ngClass]="aplicaCssErro('termos')">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" formControlName="termos" />
+          Aceito os termos.
+        </label>
+      </div>
+      <app-campo-control-erro
+        [mostrarErro]="verirficaValidTouched('termos')"
+        msgErro="Por favor, aceite os termos."
+      ></app-campo-control-erro>
+    </div>
+
+    <div class="form-group col-sm-3" [ngClass]="aplicaCssErro('frameworks')">
+      <label class="radio-inline" for="frameworks">Frameworks</label>
+        <div class="checkbox" class="col-sm-3" *ngFor="let framework of frameworks; let i = index" formArrayName="frameworks">
+          <label class="checkbox-inline">
+          <input type="checkbox" [formControlName]="i">{{ framework }}
+        </label>
+        </div>
+    </div>
+  </div>
+  <br />
+
   <button type="submit" class="btn btn-primary">Enviar</button>
   <button class="btn btn-danger" (click)="resetFormulario()">Cancelar</button>
+  <button class="btn btn-success" (click)="setarCargo()">Cargo Pleno</button>
+  <button class="btn btn-info" (click)="setarTecnologias()">Tecnologias</button>
 
   <app-form-debug [form]="formulario"></app-form-debug>
 </form>
