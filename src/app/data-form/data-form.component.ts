@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { of, Observable } from 'rxjs';
+import { FormValidations } from '../shared/data-validations';
 
 @Component({
   selector: 'app-data-form',
@@ -55,8 +56,9 @@ export class DataFormComponent {
     this.formulario = this.formBuilder.group({
       nome: [null, Validators.required],
       email: [null, [Validators.required, Validators.email]],
+      confirmarEmail: [null, [FormValidations.equalsTo("email")]],
       endereco: this.formBuilder.group({
-        cep: [null, Validators.required],
+        cep: [null, [Validators.required, FormValidations.cepValidator]],
         numero: [null, Validators.required],
         complemento: [null],
         rua: [null, Validators.required],
@@ -74,6 +76,8 @@ export class DataFormComponent {
     });
   }
 
+  
+
   buildFrameworks() {
     const values = this.frameworks.map((valor: any) => {
       new FormControl(false);
@@ -85,8 +89,6 @@ export class DataFormComponent {
   resetFormulario() {
     this.formulario.reset();
   }
-
- 
 
   onSubmit() {
     let valueSubmit = Object.assign({}, this.formulario.value);

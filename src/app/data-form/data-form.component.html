@@ -46,6 +46,31 @@
   </div>
   <br />
 
+  <div class="form-group" [ngClass]="aplicaCssErro('confirmarEmail')">
+    <div class="col-sm-12">
+      <label for="confirmarEmail">Confirmar Email</label>
+    </div>
+
+    <div class="col-sm-12">
+      <input
+        type="confirmarEmail"
+        class="form-control"
+        id="confirmarEmail"
+        placeholder="nome@email.com"
+        formControlName="confirmarEmail"
+      />
+      <app-campo-control-erro
+        [mostrarErro]="verirficaValidTouched('confirmarEmail')"
+        msgErro="Confirmar Email é Obrigatório"
+      ></app-campo-control-erro>
+      <app-campo-control-erro
+        [mostrarErro]="formulario.get('confirmarEmail')!.hasError('equalsTo')"
+        msgErro="Emails não são iguais"
+      ></app-campo-control-erro>
+    </div>
+  </div>
+  <br />
+
   <div formGroupName="endereco">
     <div class="form-group row">
       <div
@@ -63,6 +88,10 @@
         <app-campo-control-erro
           [mostrarErro]="verirficaValidTouched('endereco.cep')"
           msgErro="CEP Obrigatório"
+        ></app-campo-control-erro>
+        <app-campo-control-erro
+          [mostrarErro]="formulario.get('endereco.cep')!.hasError('cepInvalido')"
+          msgErro="CEP Invalido"
         ></app-campo-control-erro>
       </div>
 
